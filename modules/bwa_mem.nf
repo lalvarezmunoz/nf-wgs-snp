@@ -1,4 +1,4 @@
-process bwa-mem {
+process bwa_mem {
     // directives
     container 'quay.io/biocontainers/bwa:0.7.18--he4a0461_0'
     
@@ -11,6 +11,8 @@ process bwa-mem {
 
     script:
     """
+    cp ${reference}/* .
     bwa mem ${reference} ${R1} ${R2} -t ${task.cpus} > ${prefix}_bwa.bam
     """
+    //first copies reference file to local folder, because the db prefix need to be ound in the working folder
 }

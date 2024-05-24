@@ -2,78 +2,62 @@
 nextflow.enable.dsl=2
 
 
-include {bwa-mem} from "./bwa-mem.nf"
-include {flagstat} from "./flagstat.nf"
-include {sortbam} from "./sortbam.nf"
-include {markduplicates} from "./markduplicates.nf"
-include {indexbam} from "./indexbam.nf"
-include {freebayes} from "./freebayes.nf"
-include {filtervcf} from "./filtervcf.nf"
-include {fix_names} from "./fix_names.nf"
-include {vcf_annotation} from "./vcf_annotation.nf"
+include {bwa_mem} from "./modules/bwa_mem.nf"
+include {flagstat} from "./modules/flagstat.nf"
+include {sortbam} from "./modules/sortbam.nf"
+include {markduplicates} from "./modules/markduplicates.nf"
+include {indexbam} from "./modules/indexbam.nf"
+include {freebayes} from "./modules/freebayes.nf"
+include {filtervcf} from "./modules/filtervcf.nf"
+//include {fix_names} from "./modules/fix_names.nf"
+include {vcf_annotation} from "./modules/vcf_annotation.nf"
 
-//nextflow main.nf --input manifest.csv --reference_genome "/home/alonso.serrano.alvar@fohm.local/Git/nf_test/bowtie_reference" --organism AtC58 -profile prod -resume
-//nextflow main.nf --input manifest.csv --reference_genome "/mnt/c/git/nf-tnseq/reference_genomes" --organism AtC58 -profile prod -resume
+//nextflow run main.nf --input manifest.csv --reference_genome references/Acinetobacter_baumannii_gca_000963815 -profile prod -resume
+//nextflow run main.nf --input manifest.csv --reference_genome references/AB5075bwa -profile prod -resume
 
 workflow {
 
-    // CSV reader
-    csv_reads = Channel
+    // manifest reader, csv reader
+    Channel
         .fromPath(params.input)
         .splitCsv(header: true)
-        .map { row-> tuple(row.id, file(row.file))}
-        .set {cutadapt_input}
+        .map {row -> tuple(row.id, file(row.R1), file(row.R2))}
+        .set {raw_reads}
 
-
-    // reference = Channel
-    //     .fromPath(params.reference_genome)
-        //.map{file -> tuple(file.simpleName, file)}
-    // read a CSV with id,file
-    cutadapt_input.view()
-    // cutadapt step1
+    //reference reader
+    Channel
+        .fromPath(params.reference_genome)
+        .set {reference}
     
-    //fastq -> fastq
-    cutadapt_input
-        .map { id, file -> tuple(id, file, "-g GCCAACCTGT", 1) }
-        .set { cutadapt_step1 }
+    // read a CSV with id,R1,R2
+    raw_reads.view()
+    reference.view()
+
+    // bwa_mem
+    bwa_mem(raw_reads, reference)
     
-    cutadapt_1(cutadapt_step1)
+    //flagstats
+    flagstat(bwa_mem.out.bam)
+    flagstat.out.log.view()
 
+    //sort bam files
 
-    // // cutadapt step2
-    // // fastq -> fastq
-    cutadapt_1.out.sequence
-        .map { id, file -> tuple(id, file, "-a ATACCACGAC", 2) }
-        .set { cutadapt_step2 }
+    //mark duplicates with picard
 
-    cutadapt_2(cutadapt_step2)
-    // // cutadapt step3 -> logs
-    // //fastq -> fastq
-    cutadapt_2.out.sequence
-        .map { id, file -> tuple(id, file, "-m 15", 3) }
-        .set { cutadapt_step3 }
+    //index alignment
 
-    cutadapt_3(cutadapt_step3)
-    // cutadapt_step2
-    //     .map{ id, file -> tuple(id, file, "-a XXX", 3) }
-    //     .cutadapt_3()
-    //     .set { cutadapt_step3 }
+    //variant calling with freebayes
+
+    //filter by quality
+
+    //fix names
+
+    //annotation of vcf file
+   
 
 
 
-    // bowtie2 -> logs
-    //fastq -> bam
-    cutadapt_3.out.sequence
-        .map { id, file -> tuple(id, file) }
-        .set { bowtie_input }
 
-    //params.reference_genome.view()
-    bowtie2(bowtie_input, params.reference_genome, params.organism)
-    bowtie2.out.bam.view()
-    bowtie2.out.log.view()
-    // TAmapper
-    //txt(bam) -> *.txt
-    //export txt
-
+    vcf_annotation.out.vcf.view()
     
 }

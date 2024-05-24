@@ -4,6 +4,10 @@
 work/*
 results/*
 test/*
+references/*
 
 # editor configs
 .vscode/
+
+#test files
+manifest.csv

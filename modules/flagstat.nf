@@ -10,6 +10,6 @@ process flagstat {
 
     script:
     """
-    samtools flagstat -@${task.cpus} ${bam} > ${prefix}_bwa_stats.txt
+    samtools flagstat -@${task.cpus} ${bamfile} > ${prefix}_bwa_stats.txt
     """
 }
