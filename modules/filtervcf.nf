@@ -11,5 +11,6 @@ process filtervcf {
     script:
     """
     vcftools --minQ 20 --recode --recode-INFO-all --vcf ${vcffile} --out ${prefix}_freebayes_q20
+    mv ${prefix}_freebayes_q20.recode.vcf ${prefix}_freebayes_q20.vcf
     """
 }
