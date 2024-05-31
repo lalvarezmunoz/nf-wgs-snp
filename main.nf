@@ -41,8 +41,19 @@ workflow {
     flagstat.out.log.view()
 
     //sort bam files
+    sortbam(bwa_mem.out.bam)
+    sortbam.out.bam.view()
 
     //mark duplicates with picard
+
+    /*not working ok,
+    Work dir:
+  /mnt/c/git/nf-wgs-snp/work/87/ca0119b403a9e5f36204ff1221453e
+
+    markduplicates(sortbam.out.bam)
+    markduplicates.out.bam.view()
+    markduplicates.out.log.view()
+*/
 
     //index alignment
 
@@ -58,6 +69,6 @@ workflow {
 
 
 
-    vcf_annotation.out.vcf.view()
+    //vcf_annotation.out.vcf.view()
     
 }
