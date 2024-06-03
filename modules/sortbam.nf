@@ -10,6 +10,6 @@ process sortbam {
 
     script:
     """
-    sort -t ${task.cpus} -o ${prefix}_bwasorted.bam ${bamfile}
+    samtools sort -t ${task.cpus} -o ${prefix}_bwasorted.bam ${bamfile}
     """
 }

@@ -38,26 +38,21 @@ workflow {
     
     //flagstats
     flagstat(bwa_mem.out.bam)
-    flagstat.out.log.view()
+
 
     //sort bam files
     sortbam(bwa_mem.out.bam)
-    sortbam.out.bam.view()
 
     //mark duplicates with picard
-
-    /*not working ok,
-    Work dir:
-  /mnt/c/git/nf-wgs-snp/work/87/ca0119b403a9e5f36204ff1221453e
-
     markduplicates(sortbam.out.bam)
-    markduplicates.out.bam.view()
-    markduplicates.out.log.view()
-*/
 
     //index alignment
+    indexbam(markduplicates.out.bam)
+    indexbam.out.indexedbam.view()
 
     //variant calling with freebayes
+    freebayes(indexbam.out.indexedbam, file("/mnt/c/git/nf-wgs-snp/references/AB5075bwa/AB5075.fasta"))
+    freebayes.out.vcf.view()
 
     //filter by quality
 

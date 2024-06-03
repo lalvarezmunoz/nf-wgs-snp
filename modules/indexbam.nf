@@ -6,7 +6,7 @@ process indexbam {
         tuple val(prefix), path(bamfile)
 
     output:
-        tuple val(prefix), path("${prefix}_bwapicard.bam.bai"), emit: bai
+        tuple val(prefix), path("${bamfile}"), path("${prefix}_bwapicard.bam.bai"), emit: indexedbam
 
     script:
     """
