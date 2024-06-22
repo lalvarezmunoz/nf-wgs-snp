@@ -8,6 +8,9 @@ references/*
 
 # editor configs
 .vscode/
+Makefile
 
 #test files
 manifest.csv
+manifest2.csv
+samples_Curro.csv
