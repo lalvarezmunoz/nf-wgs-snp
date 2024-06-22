@@ -12,6 +12,7 @@ process freebayes {
 
     script:
     """
+    
     freebayes -C 2 -F 0.2 --min-coverage 8 -q 15 -p 1 -f ${reference} ${bamfile} > ${prefix}_freebayes.vcf
     """
     /*freebayes parameters used

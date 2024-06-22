@@ -1,17 +1,17 @@
 process vcf_annotation {
     // directives
     container 'quay.io/biocontainers/snpeff:5.2--hdfd78af_0'
+    containerOptions '--user root'       //--user root is needed because the regulr user is ignoring the -dataDir parameter form snpEff and has no permission to download the required files
     
     input:
         tuple val(prefix), path(vcffile)
-        path(reference)
+        val(strain)
 
     output:
         tuple val(prefix), path("${prefix}_results.vcf"), emit: vcf
 
     script:
     """
-    snpEff ${reference} ${vcffile} -stats ${prefix}_results > ${prefix}_results.vcf
+    snpEff ${strain} ${vcffile} -stats ${prefix}_results > ${prefix}_results.vcf
     """
-    //"snpEff -dataDir /wgs/references Acinetobacter_baumannii_gca_000963815 /wgs/sample_freebayes_q20.recode2.vcf -stats results > /wgs/results.vcf"
 }

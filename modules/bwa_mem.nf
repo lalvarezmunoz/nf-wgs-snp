@@ -11,8 +11,8 @@ process bwa_mem {
 
     script:
     """
-    cp ${reference}/* .
+    cp -r ${reference}/* .
     bwa mem ${reference} ${R1} ${R2} -t ${task.cpus} > ${prefix}_bwa.bam
     """
-    //first copies reference file to local folder, because the db prefix need to be ound in the working folder
+    //first copies reference file to local folder, because the db prefix need to be found in the working folder
 }
