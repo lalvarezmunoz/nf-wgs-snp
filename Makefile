@@ -3,7 +3,7 @@ clean:
 	echo "cleaning done"
 
 cleanall:
-	clean
+	rm -rf work/*
 	rm -rf results/*
 	echo "all files removed"
 
@@ -28,8 +28,6 @@ test_ab:
 muestras_curro:
 	nextflow run main.nf \
 		--input samples_Curro.csv \
-		--reference_genome references/Gox621H \
 		--reffasta /mnt/c/git/nf-wgs-snp/references/Gox621H/GCA_000011685.fasta \
 		--strain Gluconobacter_oxydans_621h_gca_000011685 \
-		-profile prod \
-		-resume
+		-profile prod

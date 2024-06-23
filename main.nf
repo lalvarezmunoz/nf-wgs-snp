@@ -1,7 +1,7 @@
 #!/usr/bin/env nextflow
 nextflow.enable.dsl=2
 
-include {bwa_mem} from "./modules/bwa_mem.nf"
+include {bwa_index; bwa_mem} from "./modules/bwa_mem.nf"
 include {flagstat} from "./modules/flagstat.nf"
 include {sortbam} from "./modules/sortbam.nf"
 include {markduplicates} from "./modules/markduplicates.nf"
@@ -10,8 +10,6 @@ include {freebayes} from "./modules/freebayes.nf"
 include {filtervcf} from "./modules/filtervcf.nf"
 include {fix_names} from "./modules/fix_names.nf"
 include {vcf_annotation} from "./modules/vcf_annotation.nf"
-
-
 
 workflow {
 
@@ -24,16 +22,20 @@ workflow {
 
     //reference folder
     Channel
-        .fromPath(params.reference_genome)
-        .set {reference}
+        .fromPath(params.reffasta)
+        .map {file -> tuple(file.simpleName, file)}
+        .set {reffasta_ch}
 
-   
-    // read a CSV with id,R1,R2
-    raw_reads.view()
-    reference.view()
+    // Create index based on reference FASTA
+    bwa_index(reffasta_ch)
 
     // bwa_mem
-    bwa_mem(raw_reads, reference)
+    // combine the reads with the bwa indexed channel
+    raw_reads
+        .combine(bwa_index.out.index)
+        .set{bwa_align_input}
+    // Align
+    bwa_mem(bwa_align_input)
     
     //flagstats
     flagstat(bwa_mem.out.bam)
