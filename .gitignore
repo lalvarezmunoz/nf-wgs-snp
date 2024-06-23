@@ -11,6 +11,7 @@ references/*
 Makefile
 
 #test files
-manifest.csv
-manifest2.csv
-samples_Curro.csv
+/manifest.csv
+/manifest2.csv
+/samples_Curro.csv
+/bla.txt
