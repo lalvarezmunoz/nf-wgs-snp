@@ -13,4 +13,4 @@ references/*
 #test files
 /manifest.csv
 /manifest2.csv
-/samples_Curro.csv
+/samples_*.csv
