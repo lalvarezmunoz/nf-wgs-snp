@@ -29,5 +29,5 @@ process bwa_mem {
     """
     bwa mem -t ${task.cpus} ${ref_prefix} ${R1} ${R2} > ${prefix}_bwa.bam
     """
-    //first copies reference file to local folder, because the db prefix need to be found in the working folder
+    //first copies reference file to local folder, because the db prefix needs to be found in the working folder
 }

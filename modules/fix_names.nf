@@ -31,6 +31,46 @@ cat sample.vcf | sed "s/^NZ_CP008706.1/Chromosome/" | \
     pGOX4       CP000007.1
     pGOX5       CP000008.1
 */
+
+/*
+    """
+    cat ${vcffile} | sed "s/^CP000009.1/Chromosome/" | \
+                 sed "s/^CP000004.1/pGOX1/" | \
+                 sed "s/^CP000005.1/pGOX2/" | \
+                 sed "s/^CP000006.1/pGOX3/" | \
+                 sed "s/^CP000007.1/pGOX4/" | \
+                 sed "s/^CP000008.1/pGOX5/" > ${prefix}_fixed.vcf
+    """
+*/
+
+/*Agrobacterium_fabrum_str_c58_gca_000092025
+    circular    AE007869.2
+    linear      AE007870.2
+    At       AE007872.2
+    Ti       AE007871.2
+*/
+
+/*
+    """
+    cat ${vcffile} | sed "s/^AE007869.2/circular/" | \
+                 sed "s/^AE007870.2/linear/" | \
+                 sed "s/^AE007872.2/At/" | \
+                 sed "s/^AE007871.2/Ti/" > ${prefix}_fixed.vcf
+    """
+*/
+
+/*Vibrio_cholerae_o1_biovar_el_tor_str_n16961_gca_000006745
+    I   NC_002505.1 
+    II  NC_002506.1
+*/
+
+/*
+    """
+    cat ${vcffile} | sed "s/^NC_002505.1/I/" | \
+                 sed "s/^NC_002506.1/II/" > ${prefix}_fixed.vcf
+    """
+*/
+
 process fix_names {
     //directives
 
@@ -42,11 +82,7 @@ process fix_names {
 
     script:
     """
-    cat ${vcffile} | sed "s/^CP000009.1/Chromosome/" | \
-                 sed "s/^CP000004.1/pGOX1/" | \
-                 sed "s/^CP000005.1/pGOX2/" | \
-                 sed "s/^CP000006.1/pGOX3/" | \
-                 sed "s/^CP000007.1/pGOX4/" | \
-                 sed "s/^CP000008.1/pGOX5/" > ${prefix}_fixed.vcf
+    cat ${vcffile} | sed "s/^NC_002505.1/I/" | \
+                 sed "s/^NC_002506.1/II/" > ${prefix}_fixed.vcf
     """
 }
