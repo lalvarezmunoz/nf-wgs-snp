@@ -1,6 +1,7 @@
 #!/usr/bin/env nextflow
 nextflow.enable.dsl=2
 
+include {genome_downloader} from "./modules/genome_downloader.nf"
 include {bwa_index; bwa_mem} from "./modules/bwa_mem.nf"
 include {flagstat} from "./modules/flagstat.nf"
 include {sortbam} from "./modules/sortbam.nf"
@@ -20,14 +21,11 @@ workflow {
         .map {row -> tuple(row.id, file(row.R1), file(row.R2))}
         .set {raw_reads}
 
-    //reference folder
-    Channel
-        .fromPath(params.reffasta)
-        .map {file -> tuple(file.simpleName, file)}
-        .set {reffasta_ch}
+    //genome_downloader
+    genome_downloader(params.accession_number)
 
     // Create index based on reference FASTA
-    bwa_index(reffasta_ch)
+    bwa_index(params.accession_number, genome_downloader.out.fna)
 
     // bwa_mem
     // combine the reads with the bwa indexed channel
@@ -50,14 +48,13 @@ workflow {
     indexbam(markduplicates.out.bam)
 
     //variant calling with freebayes
-    freebayes(indexbam.out.indexedbam, params.reffasta)
+    freebayes(indexbam.out.indexedbam, genome_downloader.out.fna)
 
     //filter by quality
     filtervcf(freebayes.out.vcf)
 
     //fix names
-    fix_names(filtervcf.out.vcf)
-    fix_names.out.vcf.view()
+    fix_names(params.accession_number, filtervcf.out.vcf)
 
     //annotation of vcf file
     vcf_annotation(fix_names.out.vcf, params.strain)

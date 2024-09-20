@@ -3,7 +3,8 @@ process bwa_index {
     container 'quay.io/biocontainers/bwa:0.7.18--he4a0461_0'
     
     input:
-        tuple val(prefix), path(reference)
+        val(prefix)
+        path(reference)
 
     output:
         tuple val(prefix), path("${prefix}.{amb,ann,bwt,pac,sa}"), emit: index
