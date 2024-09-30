@@ -1,3 +1,20 @@
+process snpeff_accession {
+    // directives
+    container 'quay.io/biocontainers/snpeff:5.2--hdfd78af_0'
+    
+    input:
+        val(snpeff_an)
+
+    output:
+        stdout
+
+    script:
+    """
+    snpEff databases | grep ${snpeff_an} | awk '{printf("%s",\$1);}'
+    """
+}
+//snpEff databases | grep ${snpeff_an} | awk '{print \$1}'
+
 process vcf_annotation {
     // directives
     container 'quay.io/biocontainers/snpeff:5.2--hdfd78af_0'
@@ -5,13 +22,13 @@ process vcf_annotation {
     
     input:
         tuple val(prefix), path(vcffile)
-        val(strain)
+        val(snpeff_id)
 
     output:
         tuple val(prefix), path("${prefix}_results.vcf"), emit: vcf
 
     script:
     """
-    snpEff ${strain} ${vcffile} -stats ${prefix}_results > ${prefix}_results.vcf
+    snpEff ${snpeff_id} ${vcffile} -stats ${prefix}_results > ${prefix}_results.vcf
     """
 }

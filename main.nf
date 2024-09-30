@@ -10,7 +10,8 @@ include {indexbam} from "./modules/indexbam.nf"
 include {freebayes} from "./modules/freebayes.nf"
 include {filtervcf} from "./modules/filtervcf.nf"
 include {fix_names} from "./modules/fix_names.nf"
-include {vcf_annotation} from "./modules/vcf_annotation.nf"
+include {convert_accession_snpeff} from "./modules/convert_accession_snpeff.nf"
+include {snpeff_accession; vcf_annotation} from "./modules/vcf_annotation.nf"
 
 workflow {
 
@@ -56,8 +57,15 @@ workflow {
     //fix names
     fix_names(params.accession_number, filtervcf.out.vcf)
 
+    //convert accession number into snpeff database accession number
+    convert_accession_snpeff(params.accession_number)
+    convert_accession_snpeff.out.view()
+
+    //find snpeff_id in SnpEff database based on snpeff accession number
+    snpeff_accession(convert_accession_snpeff.out)
+    snpeff_accession.out.view()
+
     //annotation of vcf file
-    vcf_annotation(fix_names.out.vcf, params.strain)
+    vcf_annotation(fix_names.out.vcf, snpeff_accession.out)
     vcf_annotation.out.vcf.view()
-    
 }
