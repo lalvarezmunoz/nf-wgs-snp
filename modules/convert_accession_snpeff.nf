@@ -1,3 +1,11 @@
+/* convert_accession_snpeff: converts the provided accession number into the format used in SnpEff (lower case, "gca_" start, no version)
+
+input:
+    val: genome assembly accession number
+output:
+    stdout: accession number to use in SnpEff
+*/
+
 process convert_accession_snpeff {
     // directives
     container 'python:3.12'

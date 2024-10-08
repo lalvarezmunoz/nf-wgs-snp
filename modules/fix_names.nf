@@ -1,4 +1,15 @@
-// fix chromosome names between VCF and SnpEff database (avoid ERROR_CHROMOSOME_NOT_FOUND)
+/* fix_names: renames the chromosomes in the vcf file to use the names used by SnpEff (avoid ERROR_CHROMOSOME_NOT_FOUND)
+https://github.com/lalvarezmunoz/vcf-snpeff-formatter
+
+If main chromosome keeps its accession number, it is automatically renamed as "chromosome"
+
+input:
+    val: genome assembly accession number
+    tuple: sample name, vcf file
+output:
+    tuple: sample name, renamed chromosomes vcf file
+    path: assembly report from NCBI used to find the names used by SnpEff
+*/
 
 process fix_names {
     //directives

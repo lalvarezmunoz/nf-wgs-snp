@@ -1,8 +1,13 @@
-/*
-Module to fetch the fna and gff files from NCBI given an accession number
+/* genome_downloader: module to fetch the fna and gff files from NCBI given an accession number
 - wget to download compressed files from NCBI url
 - unzip the compressed file
 - move the .fna or .gff files to the desired folder: find in the specified folder the file with name "*.xxx" and then execute mv {the file} to folder . End process using \;
+
+input:
+    val: genome assembly accession number (GCA or GCF)
+output:
+    path: .fna file with multifasta sequence file
+    path: .gff file with GFF3 feature file
 */
 
 process genome_downloader {

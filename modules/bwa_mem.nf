@@ -1,3 +1,13 @@
+/* bwa_index: create index for BWA-MEM
+https://bio-bwa.sourceforge.net/
+
+input:
+    val: genome assembly accession number (GCA or GCF)
+    path: assembly .fna file
+output:
+    tuple: assembly accession number, bwa index files (.amb, .ann, .bwt, .pac, .sa) 
+*/
+
 process bwa_index {
     // directives
     container 'quay.io/biocontainers/bwa:0.7.18--he4a0461_0'
@@ -15,6 +25,15 @@ process bwa_index {
     """
 
 }
+
+/* bwa_mem: align reads agaisnt a reference genome
+https://bio-bwa.sourceforge.net/
+
+input:
+    tuple: sample name, read R1, read R2, reference genome accession number (GCA or GCF), genome index files
+output:
+    tuple: sample name, aligned reads in bam format
+*/
 
 process bwa_mem {
     // directives

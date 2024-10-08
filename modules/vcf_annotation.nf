@@ -1,3 +1,12 @@
+/* snpeff_accession: search the SnpEff database for the entry with the input accession number and provides the SnpEff entry identification
+https://pcingola.github.io/SnpEff/snpeff/introduction/
+
+input:
+    val: genome assembly accession number
+output:
+    stdout: entry name in SnpEff database
+*/
+
 process snpeff_accession {
     // directives
     container 'quay.io/biocontainers/snpeff:5.2--hdfd78af_0'
@@ -13,6 +22,16 @@ process snpeff_accession {
     snpEff databases | grep ${snpeff_an} | awk '{printf("%s",\$1);}'
     """
 }
+
+/* vcf_annotation: annotate vcf file using SnpEff
+https://pcingola.github.io/SnpEff/snpeff/introduction/
+
+input:
+    tuple: sample name, renamed chromosomes vcf file
+    val: entry name in SnpEff database
+output:
+    tuple: sample name, annotated vcf file
+*/
 
 process vcf_annotation {
     // directives
