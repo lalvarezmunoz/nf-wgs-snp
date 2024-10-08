@@ -13,7 +13,6 @@ process snpeff_accession {
     snpEff databases | grep ${snpeff_an} | awk '{printf("%s",\$1);}'
     """
 }
-//snpEff databases | grep ${snpeff_an} | awk '{print \$1}'
 
 process vcf_annotation {
     // directives

@@ -1,6 +1,6 @@
 process freebayes {
     // directives
-    //version 1.3.7 does not work properly
+    // version 1.3.7 does not work properly
     container 'quay.io/biocontainers/freebayes:1.3.6--hb0f3ef8_7'
     
     input:
@@ -12,7 +12,6 @@ process freebayes {
 
     script:
     """
-    
     freebayes -C 2 -F 0.2 --min-coverage 8 -q 15 -p 1 -f ${reference} ${bamfile} > ${prefix}_freebayes.vcf
     """
     /*freebayes parameters used
