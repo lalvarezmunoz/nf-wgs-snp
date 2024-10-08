@@ -22,7 +22,7 @@ workflow {
         .map {row -> tuple(row.id, file(row.R1), file(row.R2))}
         .set {raw_reads}
 
-    //genome_downloader
+    // genome_downloader
     genome_downloader(params.accession_number)
 
     // Create index based on reference FASTA
@@ -36,36 +36,36 @@ workflow {
     // Align
     bwa_mem(bwa_align_input)
     
-    //flagstats
+    // flagstats
     flagstat(bwa_mem.out.bam)
 
-    //sort bam files
+    // sort bam files
     sortbam(bwa_mem.out.bam)
 
-    //mark duplicates with picard
+    // mark duplicates with picard
     markduplicates(sortbam.out.bam)
 
-    //index alignment
+    // index alignment
     indexbam(markduplicates.out.bam)
 
-    //variant calling with freebayes
+    // variant calling with freebayes
     freebayes(indexbam.out.indexedbam, genome_downloader.out.fna)
 
-    //filter by quality
+    // filter by quality
     filtervcf(freebayes.out.vcf)
 
-    //fix names
+    // fix chromosome names for compatibility with snpeff database
     fix_names(params.accession_number, filtervcf.out.vcf)
 
-    //convert accession number into snpeff database accession number
+    // convert accession number into SnpEff database accession number
     convert_accession_snpeff(params.accession_number)
     convert_accession_snpeff.out.view()
 
-    //find snpeff_id in SnpEff database based on snpeff accession number
+    // find snpeff_id in SnpEff database based on snpeff accession number
     snpeff_accession(convert_accession_snpeff.out)
     snpeff_accession.out.view()
 
-    //annotation of vcf file
+    // annotation of vcf file with SnpEff
     vcf_annotation(fix_names.out.vcf, snpeff_accession.out)
     vcf_annotation.out.vcf.view()
 }
