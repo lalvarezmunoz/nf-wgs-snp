@@ -13,21 +13,23 @@ First, reference sequence files are downloaded from NCBI database to be used as 
 
 ## Requirements
 
-- Nextflow
-- Docker
+- Nextflow version 24.04.4.5917
+- Docker version 27.2.0
 
 
 ## Usage
 
-Step 1: create a sample file
+Step 1: create a **results** folder in the working folder
 
-Step 2: run standard CLI code:
+Step 2: create a sample file
+
+Step 3: run standard CLI code:
 
 ```bash
 nextflow run main.nf --input <samples.csv> --accession_number <acc_number> --profile prod -resume
 ```
 
-Step 3: output files will be created in the **results** folder.
+Step 4: output files will be created in the **results** folder.
 
 *Example:*
 
