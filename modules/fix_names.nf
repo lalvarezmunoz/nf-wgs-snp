@@ -13,7 +13,7 @@ output:
 
 process fix_names {
     //directives
-    container 'lalvarezmunoz/vcf-snpeff-formatter:0.3.0'
+    container 'lalvarezmunoz/vcf-snpeff-formatter:0.4.0'
     containerOptions '--user root'       //--user root is needed because the regular user is ignoring the -dataDir parameter form snpEff and has no permission to download the required files
 
 
