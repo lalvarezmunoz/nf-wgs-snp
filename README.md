@@ -111,6 +111,7 @@ Functional annotations are described under the **INFO: ANN** entry. For details:
 - samtools/sort (http://www.htslib.org/doc/samtools-sort.html)
 - Picard/MarkDuplicates (https://broadinstitute.github.io/picard/)
 - Freebayes (https://github.com/freebayes/freebayes)
+- VCFtools (https://vcftools.github.io/index.html)
 - VCF-SnpEff formatter (https://github.com/lalvarezmunoz/vcf-snpeff-formatter)
 - SnpEff (https://pcingola.github.io/SnpEff/snpeff/introduction/)
 
