@@ -17,11 +17,11 @@ process filtervcf {
         tuple val(prefix), path(vcffile)
 
     output:
-        tuple val(prefix), path("${prefix}_freebayes_q20.vcf"), emit: vcf
+        tuple val(prefix), path("${prefix}_results.vcf"), emit: vcf
 
     script:
     """
-    vcftools --minQ 20 --recode --recode-INFO-all --vcf ${vcffile} --out ${prefix}_freebayes_q20
-    mv ${prefix}_freebayes_q20.recode.vcf ${prefix}_freebayes_q20.vcf
+    vcftools --minQ 20 --recode --recode-INFO-all --vcf ${vcffile} --out ${prefix}_results
+    mv ${prefix}_results.recode.vcf ${prefix}_results.vcf
     """
 }

@@ -43,10 +43,10 @@ process vcf_annotation {
         val(snpeff_id)
 
     output:
-        tuple val(prefix), path("${prefix}_results.vcf"), emit: vcf
+        tuple val(prefix), path("${prefix}_results_annotated.vcf"), emit: vcf
 
     script:
     """
-    snpEff ${snpeff_id} ${vcffile} -stats ${prefix}_results > ${prefix}_results.vcf
+    snpEff ${snpeff_id} ${vcffile} -stats ${prefix}_results_annotated > ${prefix}_results_annotated.vcf
     """
 }
