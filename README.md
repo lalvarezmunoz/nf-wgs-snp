@@ -8,7 +8,7 @@ This is a Nextflow pipeline designed to simplify WGS and variant calling analyse
 
 The user provides the path to the FASTQ files and an accession number.
 
-First, reference sequence files are downloaded from NCBI database to be used as the reference in BWA-MEM. The aligned reads are then sorted using Samtools, duplicate reads are marked with Picard and the BAM files are indexed. Variant calling is performed using Freebayes and, finally, VCF files are annotated using SnpEff.
+First, reference sequence files are downloaded from NCBI database to be used as the reference in BWA-MEM. The aligned reads are then sorted using Samtools, duplicate reads are marked with Picard and the BAM files are indexed. Variant calling is performed using Freebayes and, finally, VCF files can be annotated using SnpEff.
 
 
 ## Requirements
@@ -26,17 +26,24 @@ Step 2: create a sample file
 Step 3: run standard CLI code:
 
 ```bash
-nextflow run main.nf --input <samples.csv> --accession_number <acc_number> --profile prod -resume
+nextflow run main.nf --input <samples.csv> --accession_number <acc_number> -profile prod -resume
+```
+optional: run SnpEff for VCF annotation:
+```bash
+nextflow run main.nf --input <samples.csv> --accession_number <acc_number> --snpeff -profile prod -resume
 ```
 
 Step 4: output files will be created in the **results** folder.
 
-*Example:*
+*Examples:*
 
 ```bash
-nextflow run main.nf --input mysamples.csv --accession_number GCA_000092025.1 --profile prod -resume
+nextflow run main.nf --input mysamples.csv --accession_number GCA_000092025.1 -profile prod -resume
 ```
 
+```bash
+nextflow run main.nf --input mysamples.csv --accession_number GCA_000092025.1 -snpeff -profile prod -resume
+```
 ---
 
 ## Input
