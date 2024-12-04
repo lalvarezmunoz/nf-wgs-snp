@@ -43,7 +43,7 @@ nextflow run main.nf --input mysamples.csv --accession_number GCA_000092025.1 -p
 ```
 
 ```bash
-nextflow run main.nf --input mysamples.csv --accession_number GCA_000092025.1 -snpeff -profile prod -resume
+nextflow run main.nf --input mysamples.csv --accession_number GCA_000092025.1 --snpeff -profile prod -resume
 ```
 ---
 
