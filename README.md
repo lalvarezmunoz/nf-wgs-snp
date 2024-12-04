@@ -15,6 +15,7 @@ First, reference sequence files are downloaded from NCBI database to be used as 
 
 - Nextflow version 24.04.4.5917
 - Docker version 27.2.0
+- Unzip package
 
 
 ## Usage
