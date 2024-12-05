@@ -1,0 +1,45 @@
+---
+title: "WGS-SNP summary"
+output: html_document
+date: "2024-12-05"
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+library("ggplot2")
+library("reshape2")
+library("plotly")
+```
+
+## BWA-MEM alignment results
+```{r}
+# read data
+df1 <- fread("bwa_results.tsv")
+mdf <- melt(df1, id = "id")
+df2 <- fread("all_variants.tsv")
+```
+
+## BWA-MEM alignment logs
+
+Plot showing the amount of total and mapped reads per sample.
+
+```{r alignment_logs, echo=FALSE}
+p <- ggplot(mdf,aes(x=id,y=value,fill=variable)) +
+  geom_bar(stat="identity",position = "identity") +
+  scale_fill_manual(values = c("aquamarine3", "cornflowerblue")) +
+  theme_bw() +
+  theme(axis.text.x = element_text(angle = -40, vjust = 1, hjust = 0)) + 
+  xlab("Sample") + 
+  ylab("# reads") +
+  labs(fill=NULL)
+  
+ggplotly(p)
+```
+
+## SNP analysis
+
+Here comes a table:
+
+```{r pressure, echo=FALSE}
+finaldf
+```
