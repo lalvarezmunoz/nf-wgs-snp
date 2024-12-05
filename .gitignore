@@ -5,12 +5,13 @@ work/*
 results/*
 test/*
 references/*
+metrics.html
 
 # editor configs
 .vscode/
-/Makefile
+Makefile
 
 #test files
-/manifest.csv
-/manifest2.csv
-/samples_*.csv
+manifest.csv
+manifest2.csv
+samples_*.csv
