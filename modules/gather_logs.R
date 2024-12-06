@@ -14,9 +14,9 @@ data_bwa <- lapply(bwalogs, function(x){
 })
 
 # prepare dataframes
-df1 <- data.frame(t(sapply(data_bwa,c)))
-df1$total_reads <- as.numeric(df1$total_reads)
-df1$mapped_reads <- as.numeric(df1$mapped_reads)
+df <- data.frame(t(sapply(data_bwa,c)))
+df$total_reads <- as.numeric(df$total_reads)
+df$mapped_reads <- as.numeric(df$mapped_reads)
 
 # export data
-fwrite(df1, "bwa_results.tsv", sep="\t")
+fwrite(df, "bwa_results.tsv", sep="\t")

@@ -1,25 +1,28 @@
 ---
 title: "WGS-SNP summary"
+date: "`r Sys.Date()`"
 output: html_document
-date: "2024-12-05"
 ---
 
-```{r setup, include=FALSE}
+```{r setup, include=FALSE, warning=FALSE}
 knitr::opts_chunk$set(echo = TRUE)
+
+library("data.table")
+library("DT")
 library("ggplot2")
-library("reshape2")
 library("plotly")
+library("reshape2")
 ```
 
-## BWA-MEM alignment results
-```{r}
+```{r import_data, echo=FALSE}
 # read data
-df1 <- fread("bwa_results.tsv")
-mdf <- melt(df1, id = "id")
-df2 <- fread("all_variants.tsv")
-```
+df1 <- fread("C:/git/nf-wgs-snp/test/results/bwa_results.tsv")
+mdf <- reshape2::melt(df1, id = "id")
 
-## BWA-MEM alignment logs
+df2 <- fread("C:/git/nf-wgs-snp/test/results/all_variants.tsv")
+```
+# {.tabset}
+## BWA-MEM alignment results
 
 Plot showing the amount of total and mapped reads per sample.
 
@@ -36,10 +39,42 @@ p <- ggplot(mdf,aes(x=id,y=value,fill=variable)) +
 ggplotly(p)
 ```
 
+Table of reads
+
+```{r alignment_table, echo=FALSE}
+colnames(df1) <- c("Sample", "Total reads", "Mapped reads")
+datatable(df1)
+```
 ## SNP analysis
 
-Here comes a table:
+Table of SNP variants across all samples.
 
-```{r pressure, echo=FALSE}
-finaldf
+TRUE or FALSE indicate presence or absence of the alternate allele.
+
+```{r vcf_analysis, echo=FALSE}
+datatable(df2,
+          extensions = "Buttons",
+          options = list(
+            dom = "Bfrtlip",
+            buttons = c('csv', 'excel'),
+            pageLength = 25,
+            columnDefs = list(list(
+               targets = -1,
+               render = JS(
+                 "function(data, type, row, meta) {",
+                 "return type === 'display' && data.length > 100 ?",
+                 "'<span title=\"' + data + '\">' + data.substr(0, 100) + '...</span>' : data;",
+                 "}")
+             )))
+          )
 ```
+
+CHROM: Chromosome or plasmid
+
+POS: Position in the chromosome or plasmid
+
+REF: Reference allele
+
+ALT: Alternate allele
+
+ANN: Functional annotations (if SnpEff option was selected/available): 'Allele | Annotation | Annotation_Impact | Gene_Name | Gene_ID | Feature_Type | Feature_ID | Transcript_BioType | Rank | HGVS.c | HGVS.p | cDNA.pos / cDNA.length | CDS.pos / CDS.length | AA.pos / AA.length | Distance | ERRORS / WARNINGS / INFO'
