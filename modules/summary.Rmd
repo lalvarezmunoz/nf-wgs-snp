@@ -16,10 +16,10 @@ library("reshape2")
 
 ```{r import_data, echo=FALSE}
 # read data
-df1 <- fread("C:/git/nf-wgs-snp/test/results/bwa_results.tsv")
+df1 <- fread("C:/git/nf-wgs-snp/test/resultsDani/bwa_results.tsv")
 mdf <- reshape2::melt(df1, id = "id")
 
-df2 <- fread("C:/git/nf-wgs-snp/test/results/all_variants.tsv")
+df2 <- fread("C:/git/nf-wgs-snp/test/resultsDani/all_variants.tsv")
 ```
 # {.tabset}
 ## BWA-MEM alignment results
@@ -62,8 +62,8 @@ datatable(df2,
                targets = -1,
                render = JS(
                  "function(data, type, row, meta) {",
-                 "return type === 'display' && data.length > 100 ?",
-                 "'<span title=\"' + data + '\">' + data.substr(0, 100) + '...</span>' : data;",
+                 "return type === 'display' && data.length > 150 ?",
+                 "'<span title=\"' + data + '\">' + data.substr(0, 150) + '...</span>' : data;",
                  "}")
              )))
           )

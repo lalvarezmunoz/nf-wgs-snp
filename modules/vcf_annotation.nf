@@ -1,4 +1,4 @@
-/* snpeff_accession: search the SnpEff database for the entry with the input accession number and provides the SnpEff entry identification
+/* snpeff_accession: searches the SnpEff database for the entry with the input accession number and provides the SnpEff entry identification
 https://pcingola.github.io/SnpEff/snpeff/introduction/
 
 input:

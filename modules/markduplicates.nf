@@ -1,4 +1,4 @@
-/* markduplicates: identify duplicate reads
+/* markduplicates: identifies duplicate reads
 https://broadinstitute.github.io/picard/
 
 input:

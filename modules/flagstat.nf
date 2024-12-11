@@ -1,4 +1,4 @@
-/* flagstat: calculate the statistics of the alignment
+/* flagstat: calculates the statistics of the alignment
 http://www.htslib.org/doc/samtools-flagstat.html
 
 input:

@@ -1,4 +1,4 @@
-/* sortbam: sort alignments by leftmost coordinates
+/* sortbam: sorts alignments by leftmost coordinates
 http://www.htslib.org/doc/samtools-sort.html
 
 input:
