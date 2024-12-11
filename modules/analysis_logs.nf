@@ -8,7 +8,7 @@ output:
 */
 
 process report {
-    container "lalvarezmunoz/my_rocker:1.0.0" //here goes the container, rocker with data.table
+    container "my_rocker:1.0.0" //here goes the container, rocker with data.table
 
     input:
         path(logs)
