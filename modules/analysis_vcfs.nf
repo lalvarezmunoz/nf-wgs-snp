@@ -9,7 +9,7 @@ output:
 */
 
 process analysis_vcfs {
-    container "my_rocker:1.1.0"
+    container "lalvarezmunoz/my_rocker:1.2.1"
 
     input:
         val(snpeff)

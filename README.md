@@ -9,6 +9,7 @@ This is a Nextflow pipeline designed to simplify WGS and variant calling analyse
 The user provides the path to the FASTQ files and an accession number.
 
 First, reference sequence files are downloaded from NCBI database to be used as the reference in BWA-MEM. The aligned reads are then sorted using Samtools, duplicate reads are marked with Picard and the BAM files are indexed. Variant calling is performed using Freebayes and, finally, VCF files can be annotated using SnpEff.
+A final report is created with the read alignment results and VCF summary tables.
 
 
 ## Requirements
@@ -99,7 +100,7 @@ Indexed aligned reads in .bam and .bai format.
 
 ### Vcf files
 
-Variant calling report files, containing the following information:
+Variant calling files, containing the following information:
 
 ```
 #CHROM	POS	ID	REF	ALT	QUAL    FILTER	INFO	FORMAT	unknown
@@ -108,6 +109,12 @@ Variant calling report files, containing the following information:
 Information lines describing the *FILTER*, *INFO* and *FORMAT* entries used in the body of the VCF file are included in the meta-information section (file header).
 
 Functional annotations are described under the **INFO: ANN** entry. For details: http://pcingola.github.io/SnpEff/adds/VCFannotationformat_v1.0.pdf
+
+### Report file
+
+Final html report file, including:
+- BWA-MEM alignment results
+- SNP analysis
 
 ---
 
@@ -122,6 +129,7 @@ Functional annotations are described under the **INFO: ANN** entry. For details:
 - VCFtools (https://vcftools.github.io/index.html)
 - VCF-SnpEff formatter (https://github.com/lalvarezmunoz/vcf-snpeff-formatter)
 - SnpEff (https://pcingola.github.io/SnpEff/snpeff/introduction/)
+- R version 4.4.2 (with packages: remotes, data.table v1.16.4, dplyr v1.1.4, DT v0.33, ggplot2 v3.5.1, knitr v1.49, plotly v4.10.4, reshape2 v1.4.4, rmarkdown v2.29, vcfR v1.15.0)
 
 
 ## Acknowledgements

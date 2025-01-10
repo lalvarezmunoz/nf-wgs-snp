@@ -8,7 +8,7 @@ output:
 */
 
 process analysis_logs {
-    container "my_rocker:1.1.0"
+    container "lalvarezmunoz/my_rocker:1.2.1"
 
     input:
         path(logs)
