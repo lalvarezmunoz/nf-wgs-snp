@@ -2,9 +2,6 @@
 title: "WGS-SNP summary"
 date: "`r Sys.Date()`"
 output: html_document
-params:
-  results_logs: ""
-  results_vcfs: ""
 ---
 
 ```{r setup, include=FALSE, warning=FALSE}
@@ -19,10 +16,10 @@ library("reshape2")
 
 ```{r import_data, echo=FALSE}
 # read data
-df1 <- fread(params$results_logs)
+df1 <- fread("C:/git/nf-wgs-snp/test/resultsDani/bwa_results.tsv")
 mdf <- reshape2::melt(df1, id = "id")
 
-df2 <- fread(params$results_vcfs)
+df2 <- fread("C:/git/nf-wgs-snp/test/resultsDani/all_variants.tsv")
 ```
 # {.tabset}
 ## BWA-MEM alignment results
@@ -81,28 +78,3 @@ REF: Reference allele
 ALT: Alternate allele
 
 ANN: Functional annotations (if SnpEff option was selected/available): 'Allele | Annotation | Annotation_Impact | Gene_Name | Gene_ID | Feature_Type | Feature_ID | Transcript_BioType | Rank | HGVS.c | HGVS.p | cDNA.pos / cDNA.length | CDS.pos / CDS.length | AA.pos / AA.length | Distance | ERRORS / WARNINGS / INFO'
-
-## Methods
-
-Nextflow pipeline for whole genome sequencing (WGS) and variant calling of bacterial genomes.
-
-Tools and references:
-- Nextflow version 24.04.4.5917
-- Docker version 27.2.0
-- NCBI genome assemblies (https://www.ncbi.nlm.nih.gov/datasets/genome/)
-- BWA-MEM version 0.7.18 (https://bio-bwa.sourceforge.net/)
-- samtools version 1.20:
-  - samtools/flagstat (http://www.htslib.org/doc/samtools-flagstat.html)
-  - samtools/sort (http://www.htslib.org/doc/samtools-sort.html)
-- Picard/MarkDuplicates version 3.1.1 (https://broadinstitute.github.io/picard/)
-- Freebayes version 1.3.6 (https://github.com/freebayes/freebayes)
-- VCFtools version 0.1.16 (https://vcftools.github.io/index.html)
-- VCF-SnpEff formatter version 0.4.0 (https://github.com/lalvarezmunoz/vcf-snpeff-formatter)
-- SnpEff version 5.2 (https://pcingola.github.io/SnpEff/snpeff/introduction/)
-- R version 4.4.2
-
-### Citing this pipeline
-
-Please, refer to the GitHub repository when using this pipeline:
-
-> L. Alvarez, nf-wgs-snp pipeline, (2024), GitHub repository, https://github.com/lalvarezmunoz/nf-wgs-snp

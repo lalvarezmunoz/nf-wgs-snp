@@ -10,28 +10,28 @@ output:
 */
 
 process report {
-    container "lalvarezmunoz/my_rocker:1.0.0" //here goes the container, rocker with rmarkdown
+    container "lalvarezmunoz/my_rocker:1.2.1"
 
     input:
         path(template)
-        path(logs)
-        path(vcfs)
+        path(results_logs)
+        path(results_vcfs)
         
     output:
         path("report.html"), emit: summary
 
     script:
         """
-        #!/usr/local/bin/Rscript
-        file.copy("${template}", paste0(getwd(), "/template.Rmd"))
-        file.copy("${logs}", paste0(getwd(), "/logs.tsv"))              #need to be rechecked
-        file.copy("${vcfs}", paste0(getwd(), "/vcfs.tsv"))              #need to be rechecked
+        #!/usr/bin/Rscript
+   #     file.copy("${template}", paste0(getwd(), "/template.Rmd"))
+   #     file.copy("${results_logs}", paste0(getwd(), "/logs.tsv"))              #need to be rechecked
+   #     file.copy("${results_vcfs}", paste0(getwd(), "/vcfs.tsv"))              #need to be rechecked
         rmarkdown::render(
-            input = "template.Rmd",
+            input = "${template}",
             envir = new.env(),
             params = list(
-                results_logs = "${logs}"
-                results_vcfs = "${vcfs}"
+                results_logs = "${results_logs}",
+                results_vcfs = "${results_vcfs}"
             ),
             knit_root_dir = getwd(),
             output_dir = getwd(),

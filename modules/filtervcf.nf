@@ -18,6 +18,7 @@ process filtervcf {
 
     output:
         tuple val(prefix), path("${prefix}_results.vcf"), emit: vcf
+        path("${prefix}_results.vcf"), emit: vcf_summary
 
     script:
     """

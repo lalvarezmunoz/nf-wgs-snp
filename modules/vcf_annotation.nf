@@ -44,6 +44,7 @@ process vcf_annotation {
 
     output:
         tuple val(prefix), path("${prefix}_results_annotated.vcf"), emit: vcf
+        path("${prefix}_results_annotated.vcf"), emit: vcf_summary
 
     script:
     """

@@ -1,15 +1,15 @@
-/*report: renders an Rmarkdown report to html summarizing pipeline results
+/*analysis_vcfs: summarizes vcf files created by freebayes or snpeff
 
 input:
-    val: if snpeff parameter was used or not (snpeff)
-    str: path to vcf files (????)
+    val(snpeff)
+    path to collected vcf files
 
 output:
     path: results_vcfs file (.tsv)
 */
 
-process report {
-    container "lalvarezmunoz/my_rocker:1.0.0" //here goes the container, rocker with rmarkdown
+process analysis_vcfs {
+    container "my_rocker:1.1.0"
 
     input:
         val(snpeff)
@@ -19,32 +19,36 @@ process report {
         path("results_vcfs.tsv"), emit: results_vcfs
 
     script:
+    
+        def tag = snpeff ? '_annotated' : ''
+
         """
-        #!/usr/local/bin/Rscript
+        #!/usr/bin/Rscript
 
-        if (params.snpeff) {
-            tag = "_annotated"
-        } else {
-            tag = ""
-        }
+        library("vcfR")
+        library("dplyr")
+        library("data.table")
 
-        listvcf <- list.files("${vcfs}", pattern= "_results"tag".vcf", full.names = TRUE)
+        tag = "${tag}"
+
+        listvcf <- list.files(".", pattern= paste0("_results", tag, ".vcf"), full.names = TRUE)
 
         data_vcfs <- lapply(listvcf, function(x){
-            id <- sub("_results"tag".vcf", "", sub("${vcfs}", "", x)) #select names of samples from file names
+            id <- sub(paste0("_results", tag, ".vcf"), "", basename(x)) #select names of samples from file names
             vcf <- read.vcfR(x, verbose = FALSE)  #read vcf files
             df <- as.data.frame(getFIX(vcf)) #extract basic information
             if (nrow(df) > 0) { 
-                df$$sample <- "TRUE"    #create new column with TRUE value to indicate presence of the variant
+                df["sample"] <- "TRUE"    #create new column with TRUE value to indicate presence of the variant
                 names(df)[names(df) == "sample"] <- id #add sample name to dataframe
                 df <- df[,c(1,2,4,5,8)]
-                if (params.snpeff) {
-                    df$$ANN <- extract.info(vcf, element = "ANN")
-                    }
+                if (tag == "_annotated") {
+                    df["ANN"] <- extract.info(vcf, element = "ANN")
+                }
                 df
             } else {
                 NULL
             }
+            df
         })
 
         data_vcfs[sapply(data_vcfs,is.null)] <- NULL
@@ -53,9 +57,12 @@ process report {
         finaldf <- Reduce(full_join, data_vcfs)
         #substitute NAs for FALSE
         finaldf[is.na(finaldf)] <- FALSE
-        finaldf <- finaldf %>% select(-"ANN","ANN")
+        if (tag == "_annotated") {
+            finaldf <- finaldf %>% select(-"ANN","ANN")
+        }
+        finaldf
 
         #export file
-        fwrite(finaldf, "all_variants.tsv", sep="\t")                
+        fwrite(finaldf, "results_vcfs.tsv", sep="\t")                
         """
 }
