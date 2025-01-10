@@ -99,7 +99,7 @@ Tools and references:
 - VCFtools version 0.1.16 (https://vcftools.github.io/index.html)
 - VCF-SnpEff formatter version 0.4.0 (https://github.com/lalvarezmunoz/vcf-snpeff-formatter)
 - SnpEff version 5.2 (https://pcingola.github.io/SnpEff/snpeff/introduction/)
-- R version 4.4.2
+- R version 4.4.2 (with packages: remotes, data.table v1.16.4, dplyr v1.1.4, DT v0.33, ggplot2 v3.5.1, knitr v1.49, plotly v4.10.4, reshape2 v1.4.4, rmarkdown v2.29, vcfR v1.15.0) 
 
 ### Citing this pipeline
 
