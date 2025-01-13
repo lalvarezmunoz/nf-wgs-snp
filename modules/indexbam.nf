@@ -1,4 +1,4 @@
-/* indexbam: index sorted bam file for fast random access
+/* indexbam: indexes sorted bam file for fast random access
 http://www.htslib.org/doc/samtools-index.html
 
 input:

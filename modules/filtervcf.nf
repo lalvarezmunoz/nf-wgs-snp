@@ -1,4 +1,4 @@
-/* filtervcf: filter vcf file based on quality score
+/* filtervcf: filters vcf file based on quality score
 https://vcftools.github.io/man_latest.html
 
 Filter by minimum quality (minQ): includes only sites with Quality value above the threshold
@@ -18,6 +18,7 @@ process filtervcf {
 
     output:
         tuple val(prefix), path("${prefix}_results.vcf"), emit: vcf
+        path("${prefix}_results.vcf"), emit: vcf_summary
 
     script:
     """

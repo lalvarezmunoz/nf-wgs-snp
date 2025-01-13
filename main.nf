@@ -12,6 +12,9 @@ include {filtervcf} from "./modules/filtervcf.nf"
 include {fix_names} from "./modules/fix_names.nf"
 include {convert_accession_snpeff} from "./modules/convert_accession_snpeff.nf"
 include {snpeff_accession; vcf_annotation} from "./modules/vcf_annotation.nf"
+include {analysis_logs} from "./modules/analysis_logs.nf"
+include {analysis_vcfs} from "./modules/analysis_vcfs.nf"
+include {report} from "./modules/report.nf"
 
 workflow snpeff_wf {
     take:
@@ -35,6 +38,8 @@ workflow snpeff_wf {
     
     emit:
         annotated_vcf = vcf_annotation.out.vcf
+        annotated_simple_vcf = vcf_annotation.out.vcf_summary
+
 }
 
 
@@ -78,11 +83,32 @@ workflow {
 
     // filter by quality
     filtervcf(freebayes.out.vcf)
-    filtervcf.out.vcf.view()
+ //   filtervcf.out.vcf.view()
 
     if (params.snpeff) {
         // run snpeff worflow
         snpeff_wf(params.accession_number, filtervcf.out.vcf)
-        snpeff_wf.out.annotated_vcf.view()
+ //       snpeff_wf.out.annotated_vcf.view()
     }
+
+    // collect all outputs from flagstat and create dataframe
+    logs_ch = flagstat.out.log.collect()
+    analysis_logs(logs_ch)
+ //   analysis_logs.out.results_logs.view()
+
+    // collect all outputs from vcf and create dataframe
+    if (params.snpeff) {
+        vcfs_ch = snpeff_wf.out.annotated_simple_vcf.collect()
+    } else {
+        vcfs_ch = filtervcf.out.vcf_summary.collect()
+    }
+    analysis_vcfs(params.snpeff, vcfs_ch)
+ //   analysis_vcfs.out.results_vcfs.view()
+    
+    // create final report file
+    Channel
+        .fromPath("./modules/summary.Rmd")
+        .set {template_ch}
+    report(template_ch, analysis_logs.out.results_logs, analysis_vcfs.out.results_vcfs)
+    report.out.summary.view()
 }

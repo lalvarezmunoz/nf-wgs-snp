@@ -18,7 +18,7 @@ process convert_accession_snpeff {
 
     script:
     """
-        #!/usr/bin/env python
+        #!/usr/bin/env python3
         import sys
         #format accession number
         acc_split = "${accession_number}".split("_")

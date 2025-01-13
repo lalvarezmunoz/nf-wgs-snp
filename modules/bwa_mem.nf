@@ -1,4 +1,4 @@
-/* bwa_index: create index for BWA-MEM
+/* bwa_index: creates index for BWA-MEM
 https://bio-bwa.sourceforge.net/
 
 input:
@@ -26,7 +26,7 @@ process bwa_index {
 
 }
 
-/* bwa_mem: align reads agaisnt a reference genome
+/* bwa_mem: aligns reads agaisnt a reference genome
 https://bio-bwa.sourceforge.net/
 
 input:
