@@ -137,8 +137,8 @@ Final html report file, including:
 Thanks to [loAlon](https://github.com/loalon) for his contribution and guidance.
 
 
-## Citing this pipeline
+## Citation
 
-Please, refer to the GitHub repository when using this pipeline:
+> Laura Alvarez & Alonso Serrano (2024). Nextflow pipeline for bacterial WGS and SNP analysis (v1.2.0). Zenodo. https://doi.org/10.5281/zenodo.15373020
 
-> L. Alvarez, nf-wgs-snp pipeline, (2024), GitHub repository, https://github.com/lalvarezmunoz/nf-wgs-snp
+ [![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.15373020.svg)](https://doi.org/10.5281/zenodo.15373020)
