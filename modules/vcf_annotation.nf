@@ -9,7 +9,7 @@ output:
 
 process snpeff_accession {
     // directives
-    container 'quay.io/biocontainers/snpeff:5.2--hdfd78af_0'
+    container 'quay.io/biocontainers/snpeff:5.4.0c--hdfd78af_0'
     
     input:
         val(snpeff_an)
@@ -35,7 +35,7 @@ output:
 
 process vcf_annotation {
     // directives
-    container 'quay.io/biocontainers/snpeff:5.2--hdfd78af_0'
+    container 'quay.io/biocontainers/snpeff:5.4.0c--hdfd78af_0'
     containerOptions '--user root'       //--user root is needed because the regular user is ignoring the -dataDir parameter form snpEff and has no permission to download the required files
     
     input:
